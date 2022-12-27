@@ -33,6 +33,7 @@ def my_makedirs(path):
     if not os.path.isdir(path):
         os.makedirs(path)
 
+
 url_ = 'https://www.nchacutting.com/ShowResultsWidget/ShowResultsWidget/'
 
 
@@ -114,6 +115,9 @@ with requests.Session() as session:
 
             print(f'\t{ev_name_} >>> ID : {id_}')
 
+            f_d = (e.text.split(' ')[0]).strip().split('/')
+            file_date = f"{year_}-{int(f_d[0]):02}-{int(f_d[1]):02}"
+
             dir_name = f'{my_path_}/{year_}/{date_}/{ev_name_}'
             my_makedirs(f'{dir_name}')
 
@@ -164,16 +168,44 @@ with requests.Session() as session:
                 for r in tr_:
                     div_ = r.find_all('td')
 
-                    info_all.append(
-                        {
-                            f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
-                            f"{th_[1].text}": ' '.join(div_[1].text.strip().split()),
-                            f"{th_[2].text}": ' '.join(div_[2].text.strip().split()),
-                            f"{th_[3].text}": ' '.join(div_[3].text.strip().split()),
-                            f"{th_[4].text}": ' '.join(div_[4].text.strip().split()),
-                            f"{th_[5].text}": ' '.join(div_[5].text.strip().split()),
-                        }
-                    )
+                    col_1 = th_[1].text
+                    if col_1 != 'Rider':
+                        tmp1 = str(div_[1]).split('<span>')
+
+                        horse_ = tmp1[0].replace('<td>', '').replace('<br/>', '').strip()
+                        owner__ = ' '.join(str(tmp1[1]).split('<br/>')[0].strip().split())
+                        owner_ = owner__.replace(' 2nd Owner: ', '*****').replace('Owner: ', '')
+
+                        info_all.append(
+                            {
+                                f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
+                                f"Horse": horse_,
+                                f"Owner": owner_,
+                                f"{th_[2].text}": ' '.join(div_[2].text.strip().split()),
+                                f"{th_[3].text}": ' '.join(div_[3].text.strip().split()),
+                                f"{th_[4].text}": ' '.join(div_[4].text.strip().split()),
+                                f"{th_[5].text}": ' '.join(div_[5].text.strip().split())
+                            }
+                        )
+
+                    else:
+                        tmp1 = str(div_[2]).split('<span>')
+
+                        horse_ = tmp1[0].replace('<td>', '').replace('<br/>', '').strip()
+                        owner__ = ' '.join(str(tmp1[1]).split('<br/>')[0].strip().split())
+                        owner_ = owner__.replace(' 2nd Owner: ', '*****').replace('Owner: ', '')
+
+                        info_all.append(
+                            {
+                                f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
+                                f"{th_[1].text}": ' '.join(div_[1].text.strip().split()),
+                                f"Horse": horse_,
+                                f"Owner": owner_,
+                                f"{th_[3].text}": ' '.join(div_[3].text.strip().split()),
+                                f"{th_[4].text}": ' '.join(div_[4].text.strip().split()),
+                                f"{th_[5].text}": ' '.join(div_[5].text.strip().split())
+                            }
+                        )
 
                 file_name = f'{id_[0]}_{title_}.json' \
                     .replace(">", "") \
@@ -192,5 +224,5 @@ with requests.Session() as session:
                     .replace('"', '=') \
                     .replace("*", "")
 
-                with open(f'{dir_name}/{file_name}', 'w', encoding='utf-8') as file:
+                with open(f'{dir_name}/{file_date}_{file_name}', 'w', encoding='utf-8') as file:
                     json.dump(info_all, file, indent=4, ensure_ascii=False)
