@@ -176,12 +176,15 @@ with requests.Session() as session:
                         owner__ = ' '.join(str(tmp1[1]).split('<br/>')[0].strip().split())
                         owner_ = owner__.replace(' 2nd Owner: ', '*****').replace('Owner: ', '')
 
+                        tmp2 = str(div_[2]).split('<span>')
+                        rider_ = tmp2[0].replace('<td>', '').replace('<br/>', '').strip()
+
                         info_all.append(
                             {
                                 f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
                                 f"Horse": horse_,
                                 f"Owner": owner_,
-                                f"{th_[2].text}": ' '.join(div_[2].text.strip().split()),
+                                f"{th_[2].text}": rider_,
                                 f"{th_[3].text}": ' '.join(div_[3].text.strip().split()),
                                 f"{th_[4].text}": ' '.join(div_[4].text.strip().split()),
                                 f"{th_[5].text}": ' '.join(div_[5].text.strip().split())
@@ -195,10 +198,13 @@ with requests.Session() as session:
                         owner__ = ' '.join(str(tmp1[1]).split('<br/>')[0].strip().split())
                         owner_ = owner__.replace(' 2nd Owner: ', '*****').replace('Owner: ', '')
 
+                        tmp2 = str(div_[1]).split('<span>')
+                        rider_ = tmp2[0].replace('<td>', '').replace('<br/>', '').strip()
+
                         info_all.append(
                             {
                                 f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
-                                f"{th_[1].text}": ' '.join(div_[1].text.strip().split()),
+                                f"{th_[1].text}": rider_,
                                 f"Horse": horse_,
                                 f"Owner": owner_,
                                 f"{th_[3].text}": ' '.join(div_[3].text.strip().split()),
