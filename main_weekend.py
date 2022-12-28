@@ -154,8 +154,6 @@ with requests.Session() as session:
 
             all_ = new_.find_all('a', class_='list-group-item small')
 
-
-
             for a in all_:
 
                 info_all = []
@@ -167,6 +165,31 @@ with requests.Session() as session:
 
                 for r in tr_:
                     div_ = r.find_all('td')
+
+                    """
+                    `11
+                    GoRound 2 - G8-9
+                    Semifinal - SF25-27
+                    Non-Work Final - NWF7-8
+                    G1
+
+                    pl__ = 'Semifinal - SF25-27'
+                    pl_ = pl__.strip()
+                    """
+
+                    pl_ = div_[0].text.strip()
+                    pl_tmp = pl_.split(' ')
+
+                    if (re.findall(r'^\D', pl_)):
+                        place_ = pl_tmp[-1].split('-')[0]
+                    else:
+                        place_ = pl_.split('-')[0]
+
+                    place_ = place_.replace('`', '')
+                    place = [int(iy) for iy in re.findall(r'\d+', place_)]
+
+                    # print(f'{pl_} ----->>> {place[0]}')
+                    # breakpoint()
 
                     col_1 = th_[1].text
                     if col_1 != 'Rider':
@@ -181,7 +204,7 @@ with requests.Session() as session:
 
                         info_all.append(
                             {
-                                f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
+                                f"{th_[0].text}": place[0],
                                 f"Horse": horse_,
                                 f"Owner": owner_,
                                 f"{th_[2].text}": rider_,
@@ -203,7 +226,7 @@ with requests.Session() as session:
 
                         info_all.append(
                             {
-                                f"{th_[0].text}": ' '.join(div_[0].text.strip().split()),
+                                f"{th_[0].text}": place[0],
                                 f"{th_[1].text}": rider_,
                                 f"Horse": horse_,
                                 f"Owner": owner_,
