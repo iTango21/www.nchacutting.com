@@ -185,7 +185,12 @@ with requests.Session() as session:
                         place_ = pl_.split('-')[0]
 
                     place_ = place_.replace('`', '')
-                    place = [int(iy) for iy in re.findall(r'\d+', place_)]
+                    place__ = [int(iy) for iy in re.findall(r'\d+', place_)]
+
+                    try:
+                        place = place__[0]
+                    except:
+                        place = 'NONE'
 
                     # print(f'{pl_} ----->>> {place[0]}')
                     # breakpoint()

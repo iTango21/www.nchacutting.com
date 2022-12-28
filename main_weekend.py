@@ -186,7 +186,12 @@ with requests.Session() as session:
                         place_ = pl_.split('-')[0]
 
                     place_ = place_.replace('`', '')
-                    place = [int(iy) for iy in re.findall(r'\d+', place_)]
+                    place__ = [int(iy) for iy in re.findall(r'\d+', place_)]
+
+                    try:
+                        place = place__[0]
+                    except:
+                        place = 'NONE'
 
                     # print(f'{pl_} ----->>> {place[0]}')
                     # breakpoint()
@@ -204,7 +209,7 @@ with requests.Session() as session:
 
                         info_all.append(
                             {
-                                f"{th_[0].text}": place[0],
+                                f"{th_[0].text}": place,
                                 f"Horse": horse_,
                                 f"Owner": owner_,
                                 f"{th_[2].text}": rider_,
