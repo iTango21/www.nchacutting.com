@@ -208,7 +208,7 @@ with requests.Session() as session:
 
                         info_all.append(
                             {
-                                f"{th_[0].text}": place[0],
+                                f"{th_[0].text}": place,
                                 f"Horse": horse_,
                                 f"Owner": owner_,
                                 f"{th_[2].text}": rider_,
