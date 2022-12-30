@@ -11,6 +11,8 @@ ua_ = ua.random
 
 year_ = '2022'
 
+filter_en = False   #True
+
 my_path_ = './data'
 
 month_arr = {
