@@ -11,6 +11,8 @@ ua_ = ua.random
 
 year_ = '2022'
 
+filter_en = False    # False or True
+
 my_path_ = './data_weekend'
 
 month_arr = {
@@ -166,35 +168,38 @@ with requests.Session() as session:
                 for r in tr_:
                     div_ = r.find_all('td')
 
-                    """
-                    `11
-                    GoRound 2 - G8-9
-                    Semifinal - SF25-27
-                    Non-Work Final - NWF7-8
-                    G1
+                    if filter_en == True:
+                        """
+                        `11
+                        GoRound 2 - G8-9
+                        Semifinal - SF25-27
+                        Non-Work Final - NWF7-8
+                        G1
 
-                    pl__ = 'Semifinal - SF25-27'
-                    pl_ = pl__.strip()
-                    """
+                        pl__ = 'Semifinal - SF25-27'
+                        pl_ = pl__.strip()
+                        """
 
-                    pl_ = div_[0].text.strip()
-                    pl_tmp = pl_.split(' ')
+                        pl_ = div_[0].text.strip()
+                        pl_tmp = pl_.split(' ')
 
-                    if (re.findall(r'^\D', pl_)):
-                        place_ = pl_tmp[-1].split('-')[0]
+                        if (re.findall(r'^\D', pl_)):
+                            place_ = pl_tmp[-1].split('-')[0]
+                        else:
+                            place_ = pl_.split('-')[0]
+
+                        place_ = place_.replace('`', '')
+                        place__ = [int(iy) for iy in re.findall(r'\d+', place_)]
+
+                        try:
+                            place = place__[0]
+                        except:
+                            place = 'NONE'
+
+                        # print(f'{pl_} ----->>> {place[0]}')
+                        # breakpoint()
                     else:
-                        place_ = pl_.split('-')[0]
-
-                    place_ = place_.replace('`', '')
-                    place__ = [int(iy) for iy in re.findall(r'\d+', place_)]
-
-                    try:
-                        place = place__[0]
-                    except:
-                        place = 'NONE'
-
-                    # print(f'{pl_} ----->>> {place[0]}')
-                    # breakpoint()
+                        place = ' '.join(div_[0].text.strip().split())
 
                     col_1 = th_[1].text
                     if col_1 != 'Rider':
